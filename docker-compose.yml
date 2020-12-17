@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  hyperf-zipkin-demo:
+    container_name: "hyperf-zipkin-demo"
+    image: registry.cn-beijing.aliyuncs.com/duiying/hyperf:1.0
+    command: "php bin/hyperf.php start"
+    depends_on:
+      - zipkin-demo
+      - mysql-demo
+    links:
+      - zipkin-demo:zipkin-demo
+      - mysql-demo:mysql-demo
+    volumes:
+      - .:/data/www
+    ports:
+      - "9515:9501"
+    tty: true
+
+  mysql-demo:
+    container_name: mysql-demo
+    image: daocloud.io/library/mysql:5.6
+    restart: always
+    expose:
+      - "3306"
+    ports:
+      - "3361:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=wyx**WYX123
+
+  zipkin-demo:
+    container_name: zipkin-demo
+    image: openzipkin/zipkin:latest
+    restart: always
+    ports:
+      - 9411:9411
+    depends_on:
+      - mysql-demo
+    links:
+      - mysql-demo:mysql-demo
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_DB=zipkin
+      - MYSQL_USER=root
+      - MYSQL_PASS=wyx**WYX123
+      - MYSQL_HOST=mysql-demo
+      - MYSQL_TCP_PORT=3306
