@@ -12,5 +12,11 @@ docker-compose up -d
 
 具体环境请看：docker-compose.yml  
 
+我的测试结果：  
+
+![img](https://raw.githubusercontent.com/duiying/hyperf-zipkin-demo/master/img/hyperf-zipkin-demo.png)
+
+
+
 
 
